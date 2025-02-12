@@ -21,8 +21,9 @@ public interface MemberRepository extends JpaRepository<Member, Integer>{
     boolean existsByEmail(@Param("email") String email);
 
     // 아이디 찾기
-    Optional<Member> findByEmail(String email);
-    
+    @Query("SELECT m FROM Member m WHERE m.email = :email AND m.loginType = 0")
+    Optional<Member> findByEmailAndLoginType(@Param("email") String email);
+
     //네이버 회숸 조회
     @Query("SELECT m FROM Member m WHERE m.memberId = :memberId AND m.loginType = 2")
     Optional<Member> findByNaverMember(@Param("memberId") String memberId);

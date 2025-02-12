@@ -259,21 +259,16 @@ public class MemberService {
     // 아이디 찾기
     public ResponseEntity<Map<String, Object>> findId(String email) {
 
-        Optional<Member> memberOptional = memberRepository.findByEmail(email);
+        Optional<Member> memberOptional = memberRepository.findByEmailAndLoginType(email);
 
         Map<String, Object> responseMap = new HashMap<>();
 
         if (memberOptional.isPresent()) {
-            if (memberOptional.get().getLoginType() == 0) {
-                String memberId = memberOptional.get().getMemberId();
-                String maskedId = maskedMemberId(memberId); // 가려진 아이디 생성
+            String memberId = memberOptional.get().getMemberId();
+            String maskedId = maskedMemberId(memberId); // 가려진 아이디 생성
 
-                responseMap.put("memberId", maskedId);
-                return ResponseEntity.status(HttpStatus.OK).body(responseMap);
-            } else {
-                responseMap.put("message", "해당하는 유저가 없습니다.");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
-            }
+            responseMap.put("memberId", maskedId);
+            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
         } else {
             responseMap.put("message", "해당하는 유저가 없습니다.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
