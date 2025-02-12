@@ -1,4 +1,4 @@
-package com.example.tutoring;
+package com.example.tutoring.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -54,7 +54,7 @@ public class MemberService {
 
     // 회원가입 처리
     public ResponseEntity<Map<String, Object>> signUp(Map<String, Object> memberData) {
-
+    
         String newNick = createNick();
         Map<String, Object> responseMap = new HashMap<>();
 

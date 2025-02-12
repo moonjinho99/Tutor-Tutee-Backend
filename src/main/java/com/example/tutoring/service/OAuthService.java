@@ -89,9 +89,8 @@ public class OAuthService {
 	                    .nickname(createNick())
 	                    .introduction("안녕하세요") 
 	                    .build();
-	        	member = Member.toEntity(memberDto);
 	        	       	
-	        	memberRepository.saveAndFlush(member);
+	        	member = memberRepository.saveAndFlush(Member.toEntity(memberDto));
 	        }
 			
 	        String accessToken = jwtTokenProvider.createAccessToken(Integer.toString(member.getMemberNum()));

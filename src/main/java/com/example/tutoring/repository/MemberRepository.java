@@ -27,4 +27,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer>{
     @Query("SELECT m FROM Member m WHERE m.memberId = :memberId AND m.loginType = 2")
     Optional<Member> findByNaverMember(@Param("memberId") String memberId);
     
+    //PK로 ID값 조회
+    @Query("SELECT m.memberId FROM Member m WHERE m.memberNum = :memberNum")
+    String findMemberIdByMemberNum(Integer memberNum);
 }

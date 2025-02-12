@@ -30,16 +30,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
              
     	 http
+    	 .cors()
+    	 .and()
          .csrf().disable()
          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
          .and()
          .authorizeHttpRequests()
-         .antMatchers("/member/**","/oauth/**","/image/**").permitAll()
-         //.antMatchers("/member/**").hasRole("USER")
+         .antMatchers("/member/**","/oauth/**","/access-denied","/image/**","/notice/**","/follow/**").permitAll()
+         //.antMatchers("/image/**","/notice/**","/follow/**").hasRole("USER")
          .anyRequest().authenticated()
          .and()
          .oauth2Login()
-         .and()
+         .defaultSuccessUrl("http://localhost:3000/loading")
+         .and()        
          .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
      
      return http.build();

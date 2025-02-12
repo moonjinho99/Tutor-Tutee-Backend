@@ -12,6 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.example.tutoring.repository.MemberRepository;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
@@ -24,14 +27,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    private MemberRepository memberRepository;
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = resolveToken(request);
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            String memberNum = jwtTokenProvider.getMemberNum(token);
+            int memberNum = Integer.parseInt(jwtTokenProvider.getMemberNum(token));
+            
+            String memberId = memberRepository.findMemberIdByMemberNum(memberNum);
 
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(memberNum);  // memberNum으로 UserDetails 조회
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(memberId);  // memberNum으로 UserDetails 조회
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());

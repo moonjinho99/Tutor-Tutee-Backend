@@ -54,7 +54,7 @@ public class MemberController {
 	@PostMapping("/tokenCheck")
 	public ResponseEntity<Map<String, Object>> tokenCheck(HttpServletRequest request){
 		log.info("----/member/tokenCheck API 진입----");
-		String accessToken = request.getHeader("Bearer");
+		String accessToken = request.getHeader("Authorization").substring(7);
 		log.info("엑세스 토큰 : "+accessToken);
 		
 		return memberService.tokenCheck(accessToken);
@@ -112,7 +112,7 @@ public class MemberController {
 	@PostMapping("/logout")
 	public ResponseEntity<Map<String,Object>> logout(HttpServletRequest request) {
 		log.info("----/member/logout API 진입----");
-		String accessToken = request.getHeader("Bearer");
+		String accessToken = request.getHeader("Authorization").substring(7);
 		log.info("엑세스 토큰 : "+accessToken);
 		
 	    return memberService.logout(accessToken);
@@ -122,7 +122,7 @@ public class MemberController {
 	@DeleteMapping("/outMember")
 	public ResponseEntity<Map<String,Object>> outMember(HttpServletRequest request) {
 		log.info("----/member/outMember API 진입----");
-		String accessToken = request.getHeader("Bearer");
+		String accessToken = request.getHeader("Authorization").substring(7);
 		log.info("엑세스 토큰 : "+accessToken);
 		
 		return memberService.outMember(accessToken);
